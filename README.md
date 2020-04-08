@@ -1,18 +1,15 @@
-# vue-cli-ssr
+# vue-ssr-test
 
-Vue CLI 4 project configured to support [SSR](https://ssr.vuejs.org/).
+forked from [https://github.com/1isten/vue-cli-ssr](https://github.com/1isten/vue-cli-ssr).
 
 ## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development (SPA)
 ```
-npm run serve
+yarn install
 ```
 
 ### Compiles and minifies for production (SSR)
+
 ```
 npm run build
 

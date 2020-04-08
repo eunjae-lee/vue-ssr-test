@@ -1,10 +1,9 @@
 {
-  "name": "vue-cli-ssr",
+  "name": "vue-ssr-test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node -r dotenv/config app.js",
-    "serve": "vue-cli-service serve",
     "prebuild": "rm -rf public/{js,css,fonts,img}",
     "build": "npm run build:client && npm run build:server",
     "postbuild": "rm public/index.html",
