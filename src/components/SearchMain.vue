@@ -11,6 +11,7 @@ import InstantSearch from './InstantSearch.vue';
 import Configure from './Configure.vue';
 
 export default {
+  name: 'SearchMain',
   props: ['indexName'],
   components: {
     InstantSearch,
