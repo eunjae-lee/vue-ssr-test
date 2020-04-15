@@ -14,6 +14,15 @@ export default {
       hello: 'data in InstantSearch.vue',
     };
   },
+  inject: {
+    instantSearchInstance: {
+      name: 'instantSearchInstance',
+      default() {
+        // const tag = this.$options._componentTag;
+        throw new TypeError('It looks like');
+      },
+    },
+  },
 };
 </script>
 

@@ -7,56 +7,47 @@
 
 <script>
 import Vue from 'vue';
+import renderToString from 'vue-server-renderer/basic';
 import SearchMain from '../components/SearchMain.vue';
 
-function renderNode(node) {
-  const {
-    tag,
-    componentOptions: { propsData },
-  } = node;
-
-  const childComponent = new node.componentOptions.Ctor({
-    _isComponent: true,
-    _parentVnode: node,
-    parent: node.context.$parent,
-  });
-  const data = childComponent._data;
-
-  const childNode = childComponent._render();
-  const children = childNode.children
-    .filter(child => child.componentOptions)
-    .map(child => renderNode(child));
-
+function createFakeInstance() {
   return {
-    tag,
-    propsData,
-    data,
-    children,
+    __id: `_${Math.random()
+      .toString(36)
+      .substr(2, 9)}`,
+    widgets: [],
+    addWidgets(widgets) {
+      this.widgets.push(...widgets);
+    },
   };
 }
 
 export default {
   name: 'Search',
-  serverPrefetch() {
-    return new Promise(resolve => {
-      const { Ctor } = this.$vnode.componentOptions;
-      const app = new Vue({
-        render: h => h(Ctor),
-      });
-
-      app.$mount();
-      const node = app._render();
-      console.log(JSON.stringify(renderNode(node), null, 2));
-      resolve();
-    });
-  },
   components: {
     SearchMain,
   },
   data() {
     return {
       indexName: 'instant_search',
+      instantSearchInstance: createFakeInstance(),
     };
+  },
+  provide() {
+    return {
+      instantSearchInstance: this.instantSearchInstance,
+    };
+  },
+  serverPrefetch() {
+    const app = new Vue(this.$vnode.componentOptions.Ctor);
+
+    return new Promise(resolve => {
+      renderToString(app, {}, (err, html) => {
+        console.log('renderToString is finished', { err, html });
+        console.log('widgets after render', app.instantSearchInstance.widgets);
+        resolve();
+      });
+    });
   },
 };
 </script>
