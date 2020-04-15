@@ -39,6 +39,11 @@ export default {
     };
   },
   serverPrefetch() {
+    if (!this.$vnode) {
+      console.log('serverPrefetch - quitting, no $vnode');
+      return Promise.resolve();
+    }
+    console.log('serverPrefetch - $vnode exists');
     const app = new Vue(this.$vnode.componentOptions.Ctor);
 
     return new Promise(resolve => {
